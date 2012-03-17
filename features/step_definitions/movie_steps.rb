@@ -28,7 +28,8 @@ When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
     end
   end
 end
-Then /^I should see (\d+) movies$/ do |number_of_movies|
+Then /^I should see (\d+|all) movies$/ do |number_of_movies|
+  number_of_movies = Movie.count if number_of_movies == "all"
   movies_displayed = all("#movies tbody tr td:eq(1)").map {|m| m.text}
   movies_displayed.should have(number_of_movies).movies,"But got #{movies_displayed}"
 end

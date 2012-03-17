@@ -6,3 +6,4 @@ db/schema.rb
 log/
 tmp/
 db/*.sqlite3
+features.tar.gz

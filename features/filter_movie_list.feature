@@ -33,7 +33,11 @@ Scenario: restrict to movies with 'PG' or 'R' ratings
     And I should see "Raiders of the Lost Ark"
 
   Scenario: no ratings selected
-    # see assignment
+    When I uncheck the following ratings: G,PG-13,PG,R
+    And I press "Refresh"
+    Then I should see 0 movies
 
   Scenario: all ratings selected
-    # see assignment
+    When I check the following ratings: G,PG-13,PG,R
+    And I press "Refresh"
+    Then I should see all movies
