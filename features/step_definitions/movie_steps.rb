@@ -10,9 +10,10 @@ end
 #   on the same page
 
 Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
-  #  ensure that that e1 occurs before e2.
-  #  page.content  is the entire content of the page as a string.
-  assert false, "Unimplmemented"
+  movies = get_movies_from_page
+  index_of_e1 = movies.find_index(e1)
+  index_of_e2 = movies.find_index(e2)
+  index_of_e2.should be > index_of_e1
 end
 
 # Make it easier to express checking or unchecking several boxes at once
@@ -28,8 +29,11 @@ When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
     end
   end
 end
-Then /^I should see (\d+|all) movies$/ do |number_of_movies|
+Then /^I should see (\d+|all) movies?$/ do |number_of_movies|
   number_of_movies = Movie.count if number_of_movies == "all"
-  movies_displayed = all("#movies tbody tr td:eq(1)").map {|m| m.text}
+  movies_displayed = get_movies_from_page
   movies_displayed.should have(number_of_movies).movies,"But got #{movies_displayed}"
+end
+def get_movies_from_page
+  all("#movies tbody tr td:eq(1)").map {|m| m.text}
 end
